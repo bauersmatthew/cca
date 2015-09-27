@@ -47,6 +47,8 @@ const uint16_t ATT_FG_BRIGHT = 1<<6;
 const uint16_t ATT_BG_BRIGHT = 1<<7;
 const uint16_t ATT_UNDERSCORE = 1<<8;
 
+const uint8_t EVT_NONE = 0;
+const uint8_t EVT_KEY = 1;
 const uint16_t EVV_KEY_A = 'a';
 const uint16_t EVV_KEY_B = 'b';
 const uint16_t EVV_KEY_C = 'c';
@@ -128,7 +130,7 @@ const uint16_t EVV_KEY_NUMLOCK = 1030;
 const uint16_t EVV_KEY_SCRLOCK = 1031;
 const uint16_t EVV_KEY_COLONS = ';'; // the ;/: key
 const uint16_t EVV_KEY_EQ_PLUS = '='; // the =/+ key
-const uint16_t EVV_KEY_MINS_USCR = '-'; // the -/_ key
+const uint16_t EVV_KEY_MINUS_USCOR = '-'; // the -/_ key
 const uint16_t EVV_KEY_COMMA_LANG = ','; // the ,/< key
 const uint16_t EVV_KEY_PERIOD_RANG = '.'; // the ./> key
 const uint16_t EVV_KEY_SLASH_QM = '/'; // the //? key
@@ -137,6 +139,28 @@ const uint16_t EVV_KEY_LSB_LCB = '['; // the [/{ key
 const uint16_t EVV_KEY_RSB_RCB = ']'; // the ]/} key
 const uint16_t EVV_KEY_BS_VLINE = '\\'; // the \/| key
 const uint16_t EVV_KEY_SQ_DQ = '\''; // the '/" key
+const uint16_t EVV_KEY_NOTRANS = 3000; // could not translate VK.
+const uint16_t EVM_KEY_NONE = 0;
+const uint16_t EVM_KEY_SHIFT = 1<<0;
+const uint16_t EVM_KEY_CAPSLOCK = 1<<1;
+const uint16_t EVM_KEY_CONTROL = 1<<2;
+const uint16_t EVM_KEY_ALT = 1<<3;
+const uint16_t EVM_KEY_SCRLOCK = 1<<4;
+const uint16_t EVM_KEY_NUMLOCK = 1<<5;
+const uint16_t EVM_KEY_DOWN = 1<<6;
+const uint16_t EVM_KEY_UP = 1<<7;
+const uint16_t EVM_KEY_HOLD = 1<<8;
+
+//const uint16_t EVV_MOUSE_XMASK = 1<<0 | 1<<1 | 1<<2 | 1<<3 | 1<<4 | 1<<5 | 1<<6 | 1<<7;
+//const uint16_t EVV_MOUSE_YMASK = 1<<8 | 1<<9 | 1<<10 | 1<<11 | 1<<12 | 1<<13 | 1<<13 | 1<<14 | 1<<15;
+const uint16_t EVV_MOUSE_XMASK = 0x00ff;
+const uint16_t EVV_MOUSE_YMASK = 0xff00;
+#define EVV_MOUSE_X(val) (val & EVM_MOUSE_XMASK)
+#define EVV_MOUSE_Y(val) (val & EVM_MOUSE_YMASK)
+const uint16_t EVM_MOUSE_LEFT = 1<<0;
+const uint16_t EVM_MOUSE_RIGHT = 1<<1;
+const uint16_t EVM_MOUSE_DOWN = 1<<2;
+const uint16_t EVM_MOUSE_UP = 1<<3;
 
 class CnsMgr
 {

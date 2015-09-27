@@ -1,0 +1,169 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ATT_BG_BLACK	cca.h	/^const uint16_t ATT_BG_BLACK = 0;$/;"	v
+ATT_BG_BLUE	cca.h	/^const uint16_t ATT_BG_BLUE = 1<<5;$/;"	v
+ATT_BG_BRIGHT	cca.h	/^const uint16_t ATT_BG_BRIGHT = 1<<7;$/;"	v
+ATT_BG_CYAN	cca.h	/^const uint16_t ATT_BG_CYAN = ATT_BG_GREEN | ATT_BG_BLUE;$/;"	v
+ATT_BG_GREEN	cca.h	/^const uint16_t ATT_BG_GREEN = 1<<4;$/;"	v
+ATT_BG_MAGENTA	cca.h	/^const uint16_t ATT_BG_MAGENTA = ATT_BG_RED | ATT_BG_BLUE;$/;"	v
+ATT_BG_RED	cca.h	/^const uint16_t ATT_BG_RED = 1<<3;$/;"	v
+ATT_BG_WHITE	cca.h	/^const uint16_t ATT_BG_WHITE = ATT_BG_RED | ATT_BG_GREEN | ATT_BG_BLUE;$/;"	v
+ATT_BG_YELLOW	cca.h	/^const uint16_t ATT_BG_YELLOW = ATT_BG_RED | ATT_BG_GREEN;$/;"	v
+ATT_FG_BLACK	cca.h	/^const uint16_t ATT_FG_BLACK = 0;$/;"	v
+ATT_FG_BLUE	cca.h	/^const uint16_t ATT_FG_BLUE = 1<<2;$/;"	v
+ATT_FG_BRIGHT	cca.h	/^const uint16_t ATT_FG_BRIGHT = 1<<6;$/;"	v
+ATT_FG_CYAN	cca.h	/^const uint16_t ATT_FG_CYAN = ATT_FG_GREEN | ATT_FG_BLUE;$/;"	v
+ATT_FG_GREEN	cca.h	/^const uint16_t ATT_FG_GREEN = 1<<1;$/;"	v
+ATT_FG_MAGENTA	cca.h	/^const uint16_t ATT_FG_MAGENTA = ATT_FG_RED | ATT_FG_BLUE;$/;"	v
+ATT_FG_RED	cca.h	/^const uint16_t ATT_FG_RED = 1<<0;$/;"	v
+ATT_FG_WHITE	cca.h	/^const uint16_t ATT_FG_WHITE = ATT_FG_RED | ATT_FG_GREEN | ATT_FG_BLUE;$/;"	v
+ATT_FG_YELLOW	cca.h	/^const uint16_t ATT_FG_YELLOW = ATT_FG_RED | ATT_FG_GREEN;$/;"	v
+ATT_UNDERSCORE	cca.h	/^const uint16_t ATT_UNDERSCORE = 1<<8;$/;"	v
+CnsMgr	cca.cpp	/^CnsMgr::CnsMgr()$/;"	f	class:CnsMgr
+CnsMgr	cca.cpp	/^CnsMgr::CnsMgr(const CnsMgr&)$/;"	f	class:CnsMgr
+CnsMgr	cca.h	/^class CnsMgr$/;"	c
+EVM_KEY_ALT	cca.h	/^const uint16_t EVM_KEY_ALT = 1<<3;$/;"	v
+EVM_KEY_CAPSLOCK	cca.h	/^const uint16_t EVM_KEY_CAPSLOCK = 1<<1;$/;"	v
+EVM_KEY_CONTROL	cca.h	/^const uint16_t EVM_KEY_CONTROL = 1<<2;$/;"	v
+EVM_KEY_DOWN	cca.h	/^const uint16_t EVM_KEY_DOWN = 1<<6;$/;"	v
+EVM_KEY_HOLD	cca.h	/^const uint16_t EVM_KEY_HOLD = 1<<8;$/;"	v
+EVM_KEY_NONE	cca.h	/^const uint16_t EVM_KEY_NONE = 0;$/;"	v
+EVM_KEY_NUMLOCK	cca.h	/^const uint16_t EVM_KEY_NUMLOCK = 1<<5;$/;"	v
+EVM_KEY_SCRLOCK	cca.h	/^const uint16_t EVM_KEY_SCRLOCK = 1<<4;$/;"	v
+EVM_KEY_SHIFT	cca.h	/^const uint16_t EVM_KEY_SHIFT = 1<<0;$/;"	v
+EVM_KEY_UP	cca.h	/^const uint16_t EVM_KEY_UP = 1<<7;$/;"	v
+EVM_MOUSE_DOWN	cca.h	/^const uint16_t EVM_MOUSE_DOWN = 1<<2;$/;"	v
+EVM_MOUSE_LEFT	cca.h	/^const uint16_t EVM_MOUSE_LEFT = 1<<0;$/;"	v
+EVM_MOUSE_RIGHT	cca.h	/^const uint16_t EVM_MOUSE_RIGHT = 1<<1;$/;"	v
+EVM_MOUSE_UP	cca.h	/^const uint16_t EVM_MOUSE_UP = 1<<3;$/;"	v
+EVT_KEY	cca.h	/^const uint8_t EVT_KEY = 1;$/;"	v
+EVT_NONE	cca.h	/^const uint8_t EVT_NONE = 0;$/;"	v
+EVV_KEY_0	cca.h	/^const uint16_t EVV_KEY_0 = '0';$/;"	v
+EVV_KEY_1	cca.h	/^const uint16_t EVV_KEY_1 = '1';$/;"	v
+EVV_KEY_2	cca.h	/^const uint16_t EVV_KEY_2 = '2';$/;"	v
+EVV_KEY_3	cca.h	/^const uint16_t EVV_KEY_3 = '3';$/;"	v
+EVV_KEY_4	cca.h	/^const uint16_t EVV_KEY_4 = '4';$/;"	v
+EVV_KEY_5	cca.h	/^const uint16_t EVV_KEY_5 = '5';$/;"	v
+EVV_KEY_6	cca.h	/^const uint16_t EVV_KEY_6 = '6';$/;"	v
+EVV_KEY_7	cca.h	/^const uint16_t EVV_KEY_7 = '7';$/;"	v
+EVV_KEY_8	cca.h	/^const uint16_t EVV_KEY_8 = '8';$/;"	v
+EVV_KEY_9	cca.h	/^const uint16_t EVV_KEY_9 = '9';$/;"	v
+EVV_KEY_A	cca.h	/^const uint16_t EVV_KEY_A = 'a';$/;"	v
+EVV_KEY_ALT	cca.h	/^const uint16_t EVV_KEY_ALT = 1002;$/;"	v
+EVV_KEY_B	cca.h	/^const uint16_t EVV_KEY_B = 'b';$/;"	v
+EVV_KEY_BS_VLINE	cca.h	/^const uint16_t EVV_KEY_BS_VLINE = '\\\\'; \/\/ the \\\/| key$/;"	v
+EVV_KEY_C	cca.h	/^const uint16_t EVV_KEY_C = 'c';$/;"	v
+EVV_KEY_CAPSLOCK	cca.h	/^const uint16_t EVV_KEY_CAPSLOCK = 1003;$/;"	v
+EVV_KEY_COLONS	cca.h	/^const uint16_t EVV_KEY_COLONS = ';'; \/\/ the ;\/: key$/;"	v
+EVV_KEY_COMMA_LANG	cca.h	/^const uint16_t EVV_KEY_COMMA_LANG = ','; \/\/ the ,\/< key$/;"	v
+EVV_KEY_CONTROL	cca.h	/^const uint16_t EVV_KEY_CONTROL = 1001;$/;"	v
+EVV_KEY_D	cca.h	/^const uint16_t EVV_KEY_D = 'd';$/;"	v
+EVV_KEY_DELETE	cca.h	/^const uint16_t EVV_KEY_DELETE = 1015;$/;"	v
+EVV_KEY_DOWN	cca.h	/^const uint16_t EVV_KEY_DOWN = 1012;$/;"	v
+EVV_KEY_E	cca.h	/^const uint16_t EVV_KEY_E = 'e';$/;"	v
+EVV_KEY_END	cca.h	/^const uint16_t EVV_KEY_END = 1008;$/;"	v
+EVV_KEY_ENTER	cca.h	/^const uint16_t EVV_KEY_ENTER = '\\n';$/;"	v
+EVV_KEY_EQ_PLUS	cca.h	/^const uint16_t EVV_KEY_EQ_PLUS = '='; \/\/ the =\/+ key$/;"	v
+EVV_KEY_ESCAPE	cca.h	/^const uint16_t EVV_KEY_ESCAPE = 1004;$/;"	v
+EVV_KEY_F	cca.h	/^const uint16_t EVV_KEY_F = 'f';$/;"	v
+EVV_KEY_F1	cca.h	/^const uint16_t EVV_KEY_F1 = 1018;$/;"	v
+EVV_KEY_F10	cca.h	/^const uint16_t EVV_KEY_F10 = 1027;$/;"	v
+EVV_KEY_F11	cca.h	/^const uint16_t EVV_KEY_F11 = 1028;$/;"	v
+EVV_KEY_F12	cca.h	/^const uint16_t EVV_KEY_F12 = 1029;$/;"	v
+EVV_KEY_F2	cca.h	/^const uint16_t EVV_KEY_F2 = 1019;$/;"	v
+EVV_KEY_F3	cca.h	/^const uint16_t EVV_KEY_F3 = 1020;$/;"	v
+EVV_KEY_F4	cca.h	/^const uint16_t EVV_KEY_F4 = 1021;$/;"	v
+EVV_KEY_F5	cca.h	/^const uint16_t EVV_KEY_F5 = 1022;$/;"	v
+EVV_KEY_F6	cca.h	/^const uint16_t EVV_KEY_F6 = 1023;$/;"	v
+EVV_KEY_F7	cca.h	/^const uint16_t EVV_KEY_F7 = 1024;$/;"	v
+EVV_KEY_F8	cca.h	/^const uint16_t EVV_KEY_F8 = 1025;$/;"	v
+EVV_KEY_F9	cca.h	/^const uint16_t EVV_KEY_F9 = 1026;$/;"	v
+EVV_KEY_G	cca.h	/^const uint16_t EVV_KEY_G = 'g';$/;"	v
+EVV_KEY_H	cca.h	/^const uint16_t EVV_KEY_H = 'h';$/;"	v
+EVV_KEY_HOME	cca.h	/^const uint16_t EVV_KEY_HOME = 1007;$/;"	v
+EVV_KEY_I	cca.h	/^const uint16_t EVV_KEY_I = 'i';$/;"	v
+EVV_KEY_INSERT	cca.h	/^const uint16_t EVV_KEY_INSERT = 1014;$/;"	v
+EVV_KEY_J	cca.h	/^const uint16_t EVV_KEY_J = 'j';$/;"	v
+EVV_KEY_K	cca.h	/^const uint16_t EVV_KEY_K = 'k';$/;"	v
+EVV_KEY_L	cca.h	/^const uint16_t EVV_KEY_L = 'l';$/;"	v
+EVV_KEY_LEFT	cca.h	/^const uint16_t EVV_KEY_LEFT = 1009;$/;"	v
+EVV_KEY_LSB_LCB	cca.h	/^const uint16_t EVV_KEY_LSB_LCB = '['; \/\/ the [\/{ key$/;"	v
+EVV_KEY_M	cca.h	/^const uint16_t EVV_KEY_M = 'm';$/;"	v
+EVV_KEY_MINUS_USCOR	cca.h	/^const uint16_t EVV_KEY_MINUS_USCOR = '-'; \/\/ the -\/_ key$/;"	v
+EVV_KEY_N	cca.h	/^const uint16_t EVV_KEY_N = 'n';$/;"	v
+EVV_KEY_NOTRANS	cca.h	/^const uint16_t EVV_KEY_NOTRANS = 3000; \/\/ could not translate VK.$/;"	v
+EVV_KEY_NUMLOCK	cca.h	/^const uint16_t EVV_KEY_NUMLOCK = 1030;$/;"	v
+EVV_KEY_NUMPAD0	cca.h	/^const uint16_t EVV_KEY_NUMPAD0 = '0' + 2000;$/;"	v
+EVV_KEY_NUMPAD1	cca.h	/^const uint16_t EVV_KEY_NUMPAD1 = '1' + 2000;$/;"	v
+EVV_KEY_NUMPAD2	cca.h	/^const uint16_t EVV_KEY_NUMPAD2 = '2' + 2000;$/;"	v
+EVV_KEY_NUMPAD3	cca.h	/^const uint16_t EVV_KEY_NUMPAD3 = '3' + 2000;$/;"	v
+EVV_KEY_NUMPAD4	cca.h	/^const uint16_t EVV_KEY_NUMPAD4 = '4' + 2000;$/;"	v
+EVV_KEY_NUMPAD5	cca.h	/^const uint16_t EVV_KEY_NUMPAD5 = '5' + 2000;$/;"	v
+EVV_KEY_NUMPAD6	cca.h	/^const uint16_t EVV_KEY_NUMPAD6 = '6' + 2000;$/;"	v
+EVV_KEY_NUMPAD7	cca.h	/^const uint16_t EVV_KEY_NUMPAD7 = '7' + 2000;$/;"	v
+EVV_KEY_NUMPAD8	cca.h	/^const uint16_t EVV_KEY_NUMPAD8 = '8' + 2000;$/;"	v
+EVV_KEY_NUMPAD9	cca.h	/^const uint16_t EVV_KEY_NUMPAD9 = '9' + 2000;$/;"	v
+EVV_KEY_O	cca.h	/^const uint16_t EVV_KEY_O = 'o';$/;"	v
+EVV_KEY_P	cca.h	/^const uint16_t EVV_KEY_P = 'p';$/;"	v
+EVV_KEY_PERIOD_RANG	cca.h	/^const uint16_t EVV_KEY_PERIOD_RANG = '.'; \/\/ the .\/> key$/;"	v
+EVV_KEY_PGDOWN	cca.h	/^const uint16_t EVV_KEY_PGDOWN = 1005;$/;"	v
+EVV_KEY_PGUP	cca.h	/^const uint16_t EVV_KEY_PGUP = 1006;$/;"	v
+EVV_KEY_PRINTSCRN	cca.h	/^const uint16_t EVV_KEY_PRINTSCRN = 1013;$/;"	v
+EVV_KEY_Q	cca.h	/^const uint16_t EVV_KEY_Q = 'q';$/;"	v
+EVV_KEY_R	cca.h	/^const uint16_t EVV_KEY_R = 'r';$/;"	v
+EVV_KEY_RIGHT	cca.h	/^const uint16_t EVV_KEY_RIGHT = 1010;$/;"	v
+EVV_KEY_RSB_RCB	cca.h	/^const uint16_t EVV_KEY_RSB_RCB = ']'; \/\/ the ]\/} key$/;"	v
+EVV_KEY_S	cca.h	/^const uint16_t EVV_KEY_S = 's';$/;"	v
+EVV_KEY_SCRLOCK	cca.h	/^const uint16_t EVV_KEY_SCRLOCK = 1031;$/;"	v
+EVV_KEY_SHIFT	cca.h	/^const uint16_t EVV_KEY_SHIFT = 1000;$/;"	v
+EVV_KEY_SLASH_QM	cca.h	/^const uint16_t EVV_KEY_SLASH_QM = '\/'; \/\/ the \/\/? key$/;"	v
+EVV_KEY_SPACE	cca.h	/^const uint16_t EVV_KEY_SPACE = ' ';$/;"	v
+EVV_KEY_SQ_DQ	cca.h	/^const uint16_t EVV_KEY_SQ_DQ = '\\''; \/\/ the '\/" key$/;"	v
+EVV_KEY_T	cca.h	/^const uint16_t EVV_KEY_T = 't';$/;"	v
+EVV_KEY_TAB	cca.h	/^const uint16_t EVV_KEY_TAB = '\\t';$/;"	v
+EVV_KEY_TQ_TILDE	cca.h	/^const uint16_t EVV_KEY_TQ_TILDE = '~'; \/\/ `\/~ key$/;"	v
+EVV_KEY_U	cca.h	/^const uint16_t EVV_KEY_U = 'u';$/;"	v
+EVV_KEY_UP	cca.h	/^const uint16_t EVV_KEY_UP = 1011;$/;"	v
+EVV_KEY_V	cca.h	/^const uint16_t EVV_KEY_V = 'v';$/;"	v
+EVV_KEY_W	cca.h	/^const uint16_t EVV_KEY_W = 'w';$/;"	v
+EVV_KEY_X	cca.h	/^const uint16_t EVV_KEY_X = 'x';$/;"	v
+EVV_KEY_Y	cca.h	/^const uint16_t EVV_KEY_Y = 'y';$/;"	v
+EVV_KEY_Z	cca.h	/^const uint16_t EVV_KEY_Z = 'z';$/;"	v
+EVV_MOUSE_X	cca.h	158;"	d
+EVV_MOUSE_XMASK	cca.h	/^const uint16_t EVV_MOUSE_XMASK = 0x00ff;$/;"	v
+EVV_MOUSE_Y	cca.h	159;"	d
+EVV_MOUSE_YMASK	cca.h	/^const uint16_t EVV_MOUSE_YMASK = 0xff00;$/;"	v
+Event	cca.h	/^		class Event$/;"	c	class:CnsMgr
+Flip	cca.cpp	/^bool CnsMgr::Flip()$/;"	f	class:CnsMgr
+GetNextEvent	cca.cpp	/^bool CnsMgr::GetNextEvent(Event& ev)$/;"	f	class:CnsMgr
+Init	cca.cpp	/^void CnsMgr::Init()$/;"	f	class:CnsMgr
+Kill	cca.cpp	/^void CnsMgr::Kill()$/;"	f	class:CnsMgr
+Put	cca.cpp	/^bool CnsMgr::Put(char c, uint8_t x, uint8_t y, uint16_t att)$/;"	f	class:CnsMgr
+RET_IF	cca.h	12;"	d
+RET_IF_V	cca.h	13;"	d
+TranslateAttributes	cca.cpp	/^WORD CnsMgr::TranslateAttributes(uint16_t att)$/;"	f	class:CnsMgr
+TranslateWindowsVK	cca.cpp	/^uint16_t CnsMgr::TranslateWindowsVK(WORD vk)$/;"	f	class:CnsMgr
+WND_H	cca.h	/^const uint8_t WND_H = 50;$/;"	v
+WND_W	cca.h	/^const uint8_t WND_W = 50; \/\/ window\/buffer is 50 chars wide$/;"	v
+buf	cca.h	/^		CHAR_INFO *buf;$/;"	m	class:CnsMgr
+cyerr	cca.h	/^	cyerr(const std::string m, int v)$/;"	f	struct:cyerr
+cyerr	cca.h	/^struct cyerr$/;"	s
+ev_q	cca.h	/^		std::vector<Event> ev_q;$/;"	m	class:CnsMgr
+h_mysb	cca.h	/^		HANDLE h_mysb;$/;"	m	class:CnsMgr
+h_stdin	cca.h	/^		HANDLE h_stdin; DWORD ori_stdin_mode;$/;"	m	class:CnsMgr
+h_stdout	cca.h	/^		HANDLE h_stdout;$/;"	m	class:CnsMgr
+initialized	cca.h	/^		bool initialized;$/;"	m	class:CnsMgr
+main	cca.cpp	/^int main(int argc, char **argv)$/;"	f
+meta	cca.h	/^				uint16_t meta;$/;"	m	class:CnsMgr::Event
+msg	cca.h	/^	std::string msg;$/;"	m	struct:cyerr
+ori_stdin_mode	cca.h	/^		HANDLE h_stdin; DWORD ori_stdin_mode;$/;"	m	class:CnsMgr
+ori_title	cca.h	/^		char *ori_title;$/;"	m	class:CnsMgr
+title_changed	cca.h	/^		bool title_changed;$/;"	m	class:CnsMgr
+type	cca.h	/^				uint8_t type;$/;"	m	class:CnsMgr::Event
+val	cca.h	/^				uint16_t val;$/;"	m	class:CnsMgr::Event
+val	cca.h	/^	int val;$/;"	m	struct:cyerr
+~CnsMgr	cca.cpp	/^CnsMgr::~CnsMgr()$/;"	f	class:CnsMgr

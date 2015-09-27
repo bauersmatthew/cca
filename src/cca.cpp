@@ -235,10 +235,97 @@ uint16_t CnsMgr::TranslateWindowsVK(WORD vk)
 		case VK_NUMPAD7: return EVV_KEY_NUMPAD7;
 		case VK_NUMPAD8: return EVV_KEY_NUMPAD8;
 		case VK_NUMPAD9: return EVV_KEY_NUMPAD9;
+		case VK_F1: return EVV_KEY_F1;
+		case VK_F2: return EVV_KEY_F2;
+		case VK_F3: return EVV_KEY_F3;
+		case VK_F4: return EVV_KEY_F4;
+		case VK_F5: return EVV_KEY_F5;
+		case VK_F6: return EVV_KEY_F6;
+		case VK_F7: return EVV_KEY_F7;
+		case VK_F8: return EVV_KEY_F8;
+		case VK_F9: return EVV_KEY_F9;
+		case VK_F10: return EVV_KEY_F10;
+		case VK_F11: return EVV_KEY_F11;
+		case VK_F12: return EVV_KEY_F12;
+		case VK_NUMLOCK: return EVV_KEY_NUMLOCK;
+		case VK_SCROLL: return EVV_KEY_SCRLOCK;
+		case VK_OEM_1: return EVV_KEY_COLONS;
+		case VK_OEM_PLUS: return EVV_KEY_EQ_PLUS;
+		case VK_OEM_MINUS: return EVV_KEY_MINUS_USCOR;
+		case VK_OEM_PERIOD: return EVV_KEY_PERIOD_RANG;
+		case VK_OEM_COMMA: return EVV_KEY_COMMA_LANG;
+		case VK_OEM_2: return EVV_KEY_SLASH_QM;
+		case VK_OEM_3: return EVV_KEY_TQ_TILDE;
+		case VK_OEM_4: return EVV_KEY_LSB_LCB;
+		case VK_OEM_5: return EVV_KEY_BS_VLINE;
+		case VK_OEM_6: return EVV_KEY_RSB_RCB;
+		case VK_OEM_7: return EVV_KEY_SQ_DQ;
 	}
+	return EVV_KEY_NOTRANS;
 }
 
 bool CnsMgr::GetNextEvent(Event& ev)
 {
-	
+	if(!initialized)
+		return false;
+	INPUT_RECORD irec;
+	DWORD num_read;
+	if(!ev_q.empty())
+	{
+		ev = ev_q.at(0);
+		ev_q.erase(ev_q.begin());
+		return true;
+	}
+	if(!ReadConsoleInput(h_stdin, &irec, 1, &num_read))
+	{
+		return false;
+	}
+	if(num_read == 0)
+	{
+		ev.type = EVT_NONE;
+		return true;
+	}
+	if(irec.EventType == KEY_EVENT)
+	{
+		ev.type = EVT_KEY;
+		ev.val = TranslateWindowsVK(ev.Event.KeyEvent.wVirtualKeyCode);
+		ev.meta = EVM_KEY_NONE;
+		DWORD cks = ev.Event.KeyEvent.dwControlKeyState;
+		if(cks & CAPSLOCK_ON)
+			ev.meta |= EVM_KEY_CAPSLOCK;
+		if(cks & LEFT_ALT_PRESSED || cks & RIGHT_ALT_PRESSED)
+			ev.meta |= EVM_KEY_ALT;
+		if(cks & LEFT_CTRL_PRESSED | cks & RIGHT_CTRL_PRESSED)
+			ev.meta |= EVM_KEY_CONTROL;
+		if(cks & NUMLOCK_ON)
+			ev.meta |= EVM_KEY_NUMLOCK;
+		if(cks & SCROLLLOCK_ON)
+			ev.meta |= EVM_KEY_SCRLOCK;
+		if(cks & SHIFT_PRESSED)
+			ev.meta |= EVM_KEY_SHIFT;
+		if(irec.Event.KeyEvent.bKeyDown)
+		{
+			if(irec.Event.KeyEvent.wRepeatCount > 1)
+			{
+				ev.meta |= EVM_KEY_HOLD;
+				for(int i = 1; i < irec.Event.KeyEvent.wRepeatCount; i++)
+				{
+					ev_q.push_back(ev);
+				}
+			}
+			else
+			{
+				ev.meta |= EVM_KEY_DOWN;
+			}
+		}
+		else
+		{
+			ev.meta |= EVM_KEY_UP;
+		}
+		return true;
+	}
+	if(irec.EventType = MOUSE_EVENT)
+	{
+		
+	}
 }
