@@ -1,13 +1,14 @@
 /*
  * File: cca.h
- * Edited: 24 Sep 2015
+ * Edited: 27 Sep 2015
  * Author: Matthew Bauer
  */
 #pragma once
 
-#include <string>
-#include <stdint.h>
 #include <windows.h>
+#include <string>
+#include <vector>
+#include <stdint.h>
 
 #define RET_IF(x, r) if(x) return r;
 #define RET_IF_V(x) if(x) return;
@@ -21,11 +22,15 @@ struct cyerr
 		msg = m;
 		val = v;
 	}
-}
+	std::string say()
+	{
+		return "e: " + msg + " (" + std::to_string((long)val) + ")";
+	}
+};
 
 // output manger
-const uint8_t WND_W = 50; // window/buffer is 50 chars wide
-const uint8_t WND_H = 50;
+const uint16_t WND_W = 50; // window/buffer is 50 chars wide
+const uint16_t WND_H = 30;
 
 const uint16_t ATT_FG_BLACK = 0;
 const uint16_t ATT_FG_RED = 1<<0;
@@ -128,13 +133,14 @@ const uint16_t EVV_KEY_F11 = 1028;
 const uint16_t EVV_KEY_F12 = 1029;
 const uint16_t EVV_KEY_NUMLOCK = 1030;
 const uint16_t EVV_KEY_SCRLOCK = 1031;
+const uint16_t EVV_KEY_BACKSPACE = 1032;
 const uint16_t EVV_KEY_COLONS = ';'; // the ;/: key
 const uint16_t EVV_KEY_EQ_PLUS = '='; // the =/+ key
 const uint16_t EVV_KEY_MINUS_USCOR = '-'; // the -/_ key
 const uint16_t EVV_KEY_COMMA_LANG = ','; // the ,/< key
 const uint16_t EVV_KEY_PERIOD_RANG = '.'; // the ./> key
 const uint16_t EVV_KEY_SLASH_QM = '/'; // the //? key
-const uint16_t EVV_KEY_TQ_TILDE = '~'; // `/~ key
+const uint16_t EVV_KEY_TQ_TILDE = '`'; // `/~ key
 const uint16_t EVV_KEY_LSB_LCB = '['; // the [/{ key
 const uint16_t EVV_KEY_RSB_RCB = ']'; // the ]/} key
 const uint16_t EVV_KEY_BS_VLINE = '\\'; // the \/| key
@@ -151,16 +157,18 @@ const uint16_t EVM_KEY_DOWN = 1<<6;
 const uint16_t EVM_KEY_UP = 1<<7;
 const uint16_t EVM_KEY_HOLD = 1<<8;
 
-//const uint16_t EVV_MOUSE_XMASK = 1<<0 | 1<<1 | 1<<2 | 1<<3 | 1<<4 | 1<<5 | 1<<6 | 1<<7;
-//const uint16_t EVV_MOUSE_YMASK = 1<<8 | 1<<9 | 1<<10 | 1<<11 | 1<<12 | 1<<13 | 1<<13 | 1<<14 | 1<<15;
-const uint16_t EVV_MOUSE_XMASK = 0x00ff;
-const uint16_t EVV_MOUSE_YMASK = 0xff00;
+const uint16_t EVT_MOUSE = 2;
+const uint16_t EVV_MOUSE_XMASK = 1<<0 | 1<<1 | 1<<2 | 1<<3 | 1<<4 | 1<<5 | 1<<6 | 1<<7;
+const uint16_t EVV_MOUSE_YMASK = 1<<8 | 1<<9 | 1<<10 | 1<<11 | 1<<12 | 1<<13 | 1<<13 | 1<<14 | 1<<15;
 #define EVV_MOUSE_X(val) (val & EVM_MOUSE_XMASK)
 #define EVV_MOUSE_Y(val) (val & EVM_MOUSE_YMASK)
 const uint16_t EVM_MOUSE_LEFT = 1<<0;
 const uint16_t EVM_MOUSE_RIGHT = 1<<1;
-const uint16_t EVM_MOUSE_DOWN = 1<<2;
-const uint16_t EVM_MOUSE_UP = 1<<3;
+const uint16_t EVM_MOUSE_DOUBLE = 1<<4;
+const uint16_t EVM_MOUSE_CONTROL = 1<<5;
+const uint16_t EVM_MOUSE_ALT = 1<<6;
+const uint16_t EVM_MOUSE_SHIFT = 1<<7;
+const uint16_t EVM_MOUSE_MOVED = 1<<8;
 
 class CnsMgr
 {
@@ -171,7 +179,7 @@ class CnsMgr
 				uint16_t val;
 				uint16_t meta;
 				uint8_t type;
-		}
+		};
 	
 	private:
 		bool initialized;
@@ -192,14 +200,23 @@ class CnsMgr
 	
 	public:
 		CnsMgr();
-		CnsMgr(const OutMgr&); // throws
+		CnsMgr(const CnsMgr&); // throws
 		~CnsMgr();
 		
-		void Init();
+		void Init(); // can throw
 		void Kill();
 		
 		bool Put(char c, uint8_t x, uint8_t y, uint16_t att);
+		bool PutStr(const std::string& str, uint8_t sx, uint8_t y, uint16_t att); // no wrap!
+		bool Fill(char c, uint16_t att);
 		bool Flip();
 		
 		bool GetNextEvent(Event& ev); // returns false if empty
-}
+		
+		static char KeyEventToChar(const Event& kev, char bad=0);
+		
+		// max = -1 -> go to end of line
+		// show = 0 -> show normally
+		const static Event KEY_EVENT_ENTER;
+		bool GetLine(std::string& str, uint8_t sx, uint8_t sy, uint16_t att, const Event& end=KEY_EVENT_ENTER, int8_t max=-1, char show=0);
+};

@@ -1,16 +1,41 @@
 /*
  * File: cca.cpp
- * Edited: 24 Sep 2015
+ * Edited: 27 Sep 2015
  * Author: Matthew Bauer
  */
 
 // includes
-#include <cca.h>
+#include "cca.h"
+#include <iostream>
 
 // main
 int main(int argc, char **argv)
 {
+	// setup console manager
+	CnsMgr *cm = new CnsMgr();
+	try
+	{
+		cm->Init();
+	}
+	catch(cyerr& ce)
+	{
+		std::cerr << ce.say() << std::endl;
+		return 1;
+	}
 	
+	// test
+	cm->PutStr("enter str:", 0, 0, ATT_FG_RED | ATT_FG_BRIGHT | ATT_BG_BLACK);
+	cm->Flip();
+	std::string str;
+	cm->GetLine(str, 0, 1, ATT_FG_BLUE | ATT_FG_BRIGHT | ATT_BG_BLACK);
+	cm->PutStr("you entered:", 0, 2, ATT_FG_GREEN | ATT_FG_BRIGHT | ATT_BG_BLACK);
+	cm->PutStr(str, 0, 3, ATT_FG_GREEN | ATT_BG_BLACK);
+	Sleep(2000);
+	
+	// clean up
+	cm->Kill();
+	delete cm;
+	return 0;
 }
 
 // CD: CnsMgr
@@ -61,31 +86,21 @@ void CnsMgr::Init()
 			throw cyerr("failed to set screen buffer cursor info", 8005);
 		}
 	}
-	{ // screen buffer/window size: 50, 50
-		CONSOLE_SCREEN_BUFFER_INFOEX csbi;
-		csbi.cbSize = sizeof(csbi);
-		if(!GetConsoleScreenBufferInfoEx(h_mysb, &csbi))
+	{ // screen buffer/window size
+		// set both at once
+		CONSOLE_SCREEN_BUFFER_INFOEX new_csbi;
+		new_csbi.cbSize = sizeof(new_csbi);
+		if(!GetConsoleScreenBufferInfoEx(h_mysb, &new_csbi))
 		{
-			throw cyerr("failed to get screen buffer info", 8006);
+			throw cyerr("failed to get screen buffer info", 8007);
 		}
-		COORD wndsz = {
-			csbi.srWindow.Right - csbi.srWindow.Left + 1,
-			csbi.srWindow.Bottom - csbi.srWindow.Top + 1}
-		if(wndsz.X > WND_W | wndsz.Y > WND_H)
+		new_csbi.dwSize = {WND_W, WND_H};
+		new_csbi.dwCursorPosition = {0, 0};
+		new_csbi.srWindow = {0, 0, WND_W-1, WND_H-1};
+		new_csbi.wAttributes = 0;
+		if(!SetConsoleScreenBufferInfoEx(h_mysb, &new_csbi))
 		{
-			// resize (shrink) window first
-			SMALL_RECT new_wndsz =
-				{0, 0, WND_W-1, WND_H-1};
-			if(!SetConsoleWindowInfo(h_mysb, FALSE, &new_wndsz))
-			{
-				throw cyerr("failed to set window size", 8007);
-			}
-		}
-		// shrinking buffer is guaranteed to work now
-		COORD new_bufsz = {WND_W, WND_H};
-		if(!SetConsoleBufferSize(h_mysb, new_bufsz))
-		{
-			throw cyerr("failed to set buffer size", 8008);
+			throw cyerr("failed to set window/buffer size", 8006);
 		}
 	}
 	if(!SetConsoleMode(h_mysb, NULL)) // no output processing
@@ -111,7 +126,7 @@ void CnsMgr::Init()
 	
 	// try to change window title
 	ori_title = new char[100];
-	if(GetConsoleOriginalTitle(&ori_title, 100))
+	if(GetConsoleOriginalTitle(ori_title, 100))
 	{
 		if(!SetConsoleTitle("CCA"))
 		{
@@ -132,6 +147,10 @@ void CnsMgr::Init()
 
 	// done.
 	initialized = true;
+	
+	// clear screen
+	Fill(' ', 0); // black|black
+	Flip();
 }
 void CnsMgr::Kill()
 {
@@ -152,7 +171,7 @@ void CnsMgr::Kill()
 
 WORD CnsMgr::TranslateAttributes(uint16_t att)
 {
-	DWORD ret = 0;;
+	WORD ret = 0;
 	if(att & ATT_FG_RED)
 		ret |= FOREGROUND_RED;
 	if(att & ATT_FG_GREEN)
@@ -181,8 +200,35 @@ bool CnsMgr::Put(char c, uint8_t x, uint8_t y, uint16_t att)
 	if(x >= WND_W || y >= WND_H)
 		return false;
 	CHAR_INFO *ci = buf + y*WND_W + x;
+	ci->Char.UnicodeChar = 0;
 	ci->Char.AsciiChar = c;
 	ci->Attributes = TranslateAttributes(att);
+	return true;
+}
+bool CnsMgr::PutStr(const std::string& str, uint8_t x, uint8_t y, uint16_t att)
+{
+	if(!initialized)
+		return false;
+	uint8_t len = str.length();
+	if(x + len >= WND_W)
+		return false;
+	for(uint8_t i = 0; i < len; i++)
+	{
+		Put(str[i], x+i, y, att);
+	}
+	return true;
+}
+bool CnsMgr::Fill(char c, uint16_t att)
+{
+	bool ret = true;
+	for(uint8_t x = 0; x < WND_W; x++)
+	{
+		for(uint8_t y = 0; y < WND_H; y++)
+		{
+			ret = Put(c, x, y, att);
+		}
+	}
+	return ret;
 }
 bool CnsMgr::Flip()
 {
@@ -288,9 +334,9 @@ bool CnsMgr::GetNextEvent(Event& ev)
 	if(irec.EventType == KEY_EVENT)
 	{
 		ev.type = EVT_KEY;
-		ev.val = TranslateWindowsVK(ev.Event.KeyEvent.wVirtualKeyCode);
+		ev.val = TranslateWindowsVK(irec.Event.KeyEvent.wVirtualKeyCode);
 		ev.meta = EVM_KEY_NONE;
-		DWORD cks = ev.Event.KeyEvent.dwControlKeyState;
+		DWORD cks = irec.Event.KeyEvent.dwControlKeyState;
 		if(cks & CAPSLOCK_ON)
 			ev.meta |= EVM_KEY_CAPSLOCK;
 		if(cks & LEFT_ALT_PRESSED || cks & RIGHT_ALT_PRESSED)
@@ -326,6 +372,164 @@ bool CnsMgr::GetNextEvent(Event& ev)
 	}
 	if(irec.EventType = MOUSE_EVENT)
 	{
+		ev.type = EVT_MOUSE;
+		ev.val = 0;
+		ev.val |= (EVV_MOUSE_XMASK & irec.Event.MouseEvent.dwMousePosition.X);
+		ev.val |= (EVV_MOUSE_YMASK & irec.Event.MouseEvent.dwMousePosition.Y);
 		
+		ev.meta = 0;
+		DWORD winbs = irec.Event.MouseEvent.dwButtonState;
+		if(winbs & FROM_LEFT_1ST_BUTTON_PRESSED)
+			ev.meta |= EVM_MOUSE_LEFT;
+		if(winbs & RIGHTMOST_BUTTON_PRESSED)
+			ev.meta |= EVM_MOUSE_RIGHT;
+		
+		DWORD winck = irec.Event.MouseEvent.dwControlKeyState;
+		if(winck & LEFT_ALT_PRESSED || winck & RIGHT_ALT_PRESSED)
+			ev.meta |= EVM_MOUSE_ALT;
+		if(winck & LEFT_CTRL_PRESSED || winck & RIGHT_CTRL_PRESSED)
+			ev.meta |= EVM_MOUSE_CONTROL;
+		if(winck & SHIFT_PRESSED)
+			ev.meta |= EVM_MOUSE_SHIFT;
+		
+		DWORD winef = irec.Event.MouseEvent.dwEventFlags;
+		if(winef & DOUBLE_CLICK)
+			ev.meta |= EVM_MOUSE_DOUBLE;
+		if(winef & MOUSE_MOVED)
+			ev.meta |= EVM_MOUSE_MOVED;
+		
+		return true;
 	}
+	return true;
+}
+
+char CnsMgr::KeyEventToChar(const CnsMgr::Event& kev, char bad)
+{
+	char base;
+	if(kev.val >= EVV_KEY_A && kev.val <= EVV_KEY_Z)
+		base = kev.val;
+	else if(kev.val >= EVV_KEY_0 && kev.val <= EVV_KEY_9)
+		base = kev.val;
+	else if(kev.val >= EVV_KEY_NUMPAD0 && kev.val <= EVV_KEY_NUMPAD9)
+		base = (char)(kev.val-2000);
+	else if(
+		kev.val == EVV_KEY_TAB ||
+		kev.val == EVV_KEY_ENTER ||
+		kev.val == EVV_KEY_COLONS ||
+		kev.val == EVV_KEY_EQ_PLUS ||
+		kev.val == EVV_KEY_MINUS_USCOR ||
+		kev.val == EVV_KEY_COMMA_LANG ||
+		kev.val == EVV_KEY_PERIOD_RANG ||
+		kev.val == EVV_KEY_SLASH_QM || 
+		kev.val == EVV_KEY_TQ_TILDE ||
+		kev.val == EVV_KEY_LSB_LCB || 
+		kev.val == EVV_KEY_RSB_RCB ||
+		kev.val == EVV_KEY_BS_VLINE || 
+		kev.val == EVV_KEY_SQ_DQ
+		)
+		base = kev.val;
+	else
+		return bad;
+	
+	if(kev.meta && EVM_KEY_SHIFT)
+	{
+		if(base >= 'a' && base <= 'z')
+			base -= ('a'-'A');
+		else switch(base)
+		{
+			case '0': return ')';
+			case '1': return '!';
+			case '2': return '@';
+			case '3': return '#';
+			case '4': return '$';
+			case '5': return '%';
+			case '6': return '^';
+			case '7': return '&';
+			case '8': return '*';
+			case '9': return '(';
+			case ';': return ':';
+			case '=': return '+';
+			case '-': return '_';
+			case ',': return '<';
+			case '.': return '>';
+			case '/': return '?';
+			case '`': return '~';
+			case '[': return '{';
+			case ']': return '}';
+			case '\\': return '|';
+			case '\'': return '\"';
+		}
+	}
+	if(kev.meta && EVM_KEY_CAPSLOCK)
+	{
+		if(base >= 'a' && base <= 'z')
+			base += ('a' - 'A');
+		else if(base >= 'A' && base <= 'Z')
+			base -= ('a' - 'A');
+	}
+	return base; // a-z, A-Z, \t, \n
+}
+
+const CnsMgr::Event CnsMgr::KEY_EVENT_ENTER = {EVV_KEY_ENTER, 0, EVT_KEY};
+bool CnsMgr::GetLine(std::string& str, uint8_t sx, uint8_t sy, uint16_t att, const Event& end, int8_t max, char show)
+{
+	if(!initialized)
+		return false;
+	if(sx > WND_W || sy >= WND_H) // > for sx, so that u can use it to get enter when at end of line
+		return false;
+	
+	std::string print = std::string(WND_W - sx, ' ');
+	std::string read = "";
+	if(max == -1)
+		max = WND_H - sx;
+	Event my_end = end;
+	if(my_end.type != EVT_KEY)
+		my_end = KEY_EVENT_ENTER;
+	
+	uint8_t xpos = sx;
+	uint16_t curs_att = (att & ATT_FG_WHITE) | ((att & ATT_FG_WHITE) << 3) | (att & ATT_FG_BRIGHT) | ((att & ATT_FG_BRIGHT) << 1); // fg = att.fg, bg = att.fg
+
+	Put(' ', xpos, sy, curs_att);
+	Flip();
+
+	Event ev;
+	while(true)
+	{
+		if(!GetNextEvent(ev))
+			return false;
+		if(ev.type != EVT_KEY)
+			continue;
+		if(ev.val == my_end.val && ev.meta == my_end.meta)
+			break;
+		
+		if(ev.val == EVV_KEY_BACKSPACE)
+		{
+			if(!read.empty()) // or, xpos != sx
+			{
+				read = read.substr(0, read.size()-1);
+				print[xpos-sx] = ' ';
+				xpos--;
+				PutStr(print, sx, sy, att);
+				Put(' ', xpos, sx, curs_att);
+			}
+		}
+		
+		if(xpos == WND_W)
+			continue;
+
+		char ch = KeyEventToChar(ev);
+		if(ch == 0 || ch == '\n' || ch == '\t')
+			continue;
+		read += ch;
+		if(show == 0)
+			print[xpos-sx] = ch;
+		else
+			print += show;
+		xpos++;
+		PutStr(print, sx, sy, att);
+		Put(' ', xpos, sx, curs_att);
+	}
+	
+	str = read;
+	return true;
 }
