@@ -28,7 +28,7 @@ struct cyerr
 	}
 };
 
-// output manger
+// console manger
 const uint16_t WND_W = 50; // window/buffer is 50 chars wide
 const uint16_t WND_H = 25;
 

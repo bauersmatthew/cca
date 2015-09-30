@@ -23,7 +23,7 @@ ATT_FG_RED	cca.h	/^const uint16_t ATT_FG_RED = 1<<0;$/;"	v
 ATT_FG_WHITE	cca.h	/^const uint16_t ATT_FG_WHITE = ATT_FG_RED | ATT_FG_GREEN | ATT_FG_BLUE;$/;"	v
 ATT_FG_YELLOW	cca.h	/^const uint16_t ATT_FG_YELLOW = ATT_FG_RED | ATT_FG_GREEN;$/;"	v
 ATT_UNDERSCORE	cca.h	/^const uint16_t ATT_UNDERSCORE = 1<<8;$/;"	v
-CHAR_BLOCK	cca.cpp	473;"	d	file:
+CHAR_BLOCK	cca.cpp	498;"	d	file:
 CnsMgr	cca.cpp	/^CnsMgr::CnsMgr()$/;"	f	class:CnsMgr
 CnsMgr	cca.cpp	/^CnsMgr::CnsMgr(const CnsMgr&)$/;"	f	class:CnsMgr
 CnsMgr	cca.h	/^class CnsMgr$/;"	c
@@ -143,13 +143,16 @@ EVV_MOUSE_X	cca.h	163;"	d
 EVV_MOUSE_XMASK	cca.h	/^const uint16_t EVV_MOUSE_XMASK = 1<<0 | 1<<1 | 1<<2 | 1<<3 | 1<<4 | 1<<5 | 1<<6 | 1<<7;$/;"	v
 EVV_MOUSE_Y	cca.h	164;"	d
 EVV_MOUSE_YMASK	cca.h	/^const uint16_t EVV_MOUSE_YMASK = 1<<8 | 1<<9 | 1<<10 | 1<<11 | 1<<12 | 1<<13 | 1<<13 | 1<<14 | 1<<15;$/;"	v
+Event	cca.h	/^				Event() : Event(0, 0, 0)$/;"	f	class:CnsMgr::Event
+Event	cca.h	/^				Event(const Event& ev) : Event(ev.val, ev.meta, ev.type)$/;"	f	class:CnsMgr::Event
+Event	cca.h	/^				Event(uint16_t v, uint16_t m, uint8_t t)$/;"	f	class:CnsMgr::Event
 Event	cca.h	/^		class Event$/;"	c	class:CnsMgr
 Fill	cca.cpp	/^bool CnsMgr::Fill(char c, uint16_t att)$/;"	f	class:CnsMgr
 Flip	cca.cpp	/^bool CnsMgr::Flip()$/;"	f	class:CnsMgr
-GetLine	cca.cpp	/^bool CnsMgr::GetLine(std::string& str, uint8_t sx, uint8_t sy, uint16_t att, const Event& end, int8_t max, char show)$/;"	f	class:CnsMgr
+GetLine	cca.cpp	/^bool CnsMgr::GetLine(std::string *str, uint8_t sx, uint8_t sy, uint16_t att, const Event& end, int8_t max, char show)$/;"	f	class:CnsMgr
 GetNextEvent	cca.cpp	/^bool CnsMgr::GetNextEvent(Event& ev)$/;"	f	class:CnsMgr
 Init	cca.cpp	/^void CnsMgr::Init()$/;"	f	class:CnsMgr
-KEY_EVENT_ENTER	cca.cpp	/^const CnsMgr::Event CnsMgr::KEY_EVENT_ENTER = {EVV_KEY_ENTER, 0, EVT_KEY};$/;"	m	class:CnsMgr	file:
+KEY_EVENT_ENTER	cca.cpp	/^const CnsMgr::Event CnsMgr::KEY_EVENT_ENTER = {EVV_KEY_ENTER, EVM_KEY_DOWN, EVT_KEY};$/;"	m	class:CnsMgr	file:
 KEY_EVENT_ENTER	cca.h	/^		const static Event KEY_EVENT_ENTER;$/;"	m	class:CnsMgr
 KeyEventToChar	cca.cpp	/^char CnsMgr::KeyEventToChar(const CnsMgr::Event& kev, char bad)$/;"	f	class:CnsMgr
 Kill	cca.cpp	/^void CnsMgr::Kill()$/;"	f	class:CnsMgr
@@ -159,7 +162,7 @@ RET_IF	cca.h	13;"	d
 RET_IF_V	cca.h	14;"	d
 TranslateAttributes	cca.cpp	/^WORD CnsMgr::TranslateAttributes(uint16_t att)$/;"	f	class:CnsMgr
 TranslateWindowsVK	cca.cpp	/^uint16_t CnsMgr::TranslateWindowsVK(WORD vk)$/;"	f	class:CnsMgr
-WND_H	cca.h	/^const uint16_t WND_H = 30;$/;"	v
+WND_H	cca.h	/^const uint16_t WND_H = 25;$/;"	v
 WND_W	cca.h	/^const uint16_t WND_W = 50; \/\/ window\/buffer is 50 chars wide$/;"	v
 buf	cca.h	/^		CHAR_INFO *buf;$/;"	m	class:CnsMgr
 cyerr	cca.h	/^	cyerr(const std::string m, int v)$/;"	f	struct:cyerr

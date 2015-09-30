@@ -10,6 +10,14 @@
 #include <thread>
 #include <fstream>
 
+// TODO: MAKE EXTRA ABSTRACTION LAYER FOR GRAPHICS AND INPUT. MAKE GAMEOBJ CLASS.
+// TODO: MAYBE MAKE RESOURCE MANAGER CLASS? DON'T KNOW IF REALLY NEEDED.
+
+const std::string RESOURCE_DIR = "res/";
+std::string Pathify(const std::string& res);
+
+uint8_t StartupDialogue(CnsMgr *cm);
+
 // main
 int main(int argc, char **argv)
 {
@@ -25,22 +33,18 @@ int main(int argc, char **argv)
 		return 1;
 	}
 	
-	// test
-	std::ifstream fin("map");
-	std::string line;
-	std::getline(fin, line);
-	for(int ln = 0; !fin.eof(); ln++)
-	{
-		cm->PutStr(line, 0, ln, ATT_FG_RED | ATT_FG_BRIGHT | ATT_UNDERSCORE);
-		std::getline(fin, line);
-	}
-	fin.close();
-	cm->Flip();
-	cm->GetLine(NULL, 0, 0, 0, CnsMgr::Event(EVV_KEY_Q, EVM_KEY_DOWN, EVT_KEY), 0);
-	
+	// initial dialogue
+	Sleep(1000);
+
 	// clean up
 	cm->Kill();
 	delete cm;
+	return 0;
+}
+
+// FD
+uint8_t StartupDialogue(CnsMgr *cm)
+{
 	return 0;
 }
 
@@ -112,7 +116,6 @@ void CnsMgr::Init()
 		{
 			throw cyerr("failed to set window/buffer size", 8006);
 		}
-		SetConsoleScreenBufferInfoEx(h_mysb, &new_csbi);
 	}
 	if(!SetConsoleMode(h_mysb, NULL)) // no output processing
 	{
@@ -528,7 +531,7 @@ bool CnsMgr::GetLine(std::string *str, uint8_t sx, uint8_t sy, uint16_t att, con
 		
 		if(ev.type != EVT_KEY)
 			continue;
-		if(ev.val == my_end.val && ev.meta == my_end.meta)
+		if(ev.val == my_end.val && my_end.meta == (my_end.meta & ev.meta))
 			break;
 		if(!(ev.meta & EVM_KEY_DOWN || ev.meta & EVM_KEY_HOLD))
 			continue;

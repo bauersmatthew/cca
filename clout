@@ -2,6 +2,7 @@ cca.cpp
 Microsoft (R) Incremental Linker Version 14.00.23026.0
 Copyright (C) Microsoft Corporation.  All rights reserved.
 
-/out:rel/cca.exe 
+/debug 
+/out:dbg/cca.exe 
 User32.lib 
 cca.obj 
