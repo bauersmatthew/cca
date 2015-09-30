@@ -1,6 +1,6 @@
 /*
  * File: cca.h
- * Edited: 27 Sep 2015
+ * Edited: 29 Sep 2015
  * Author: Matthew Bauer
  */
 #pragma once
@@ -30,7 +30,7 @@ struct cyerr
 
 // output manger
 const uint16_t WND_W = 50; // window/buffer is 50 chars wide
-const uint16_t WND_H = 30;
+const uint16_t WND_H = 25;
 
 const uint16_t ATT_FG_BLACK = 0;
 const uint16_t ATT_FG_RED = 1<<0;
@@ -179,6 +179,16 @@ class CnsMgr
 				uint16_t val;
 				uint16_t meta;
 				uint8_t type;
+				Event(uint16_t v, uint16_t m, uint8_t t)
+				{
+					val = v;
+					meta = m;
+					type = t;
+				}
+				Event() : Event(0, 0, 0)
+				{}
+				Event(const Event& ev) : Event(ev.val, ev.meta, ev.type)
+				{}
 		};
 	
 	private:
@@ -218,5 +228,5 @@ class CnsMgr
 		// max = -1 -> go to end of line
 		// show = 0 -> show normally
 		const static Event KEY_EVENT_ENTER;
-		bool GetLine(std::string& str, uint8_t sx, uint8_t sy, uint16_t att, const Event& end=KEY_EVENT_ENTER, int8_t max=-1, char show=0);
+		bool GetLine(std::string *str, uint8_t sx, uint8_t sy, uint16_t att, const Event& end=KEY_EVENT_ENTER, int8_t max=-1, char show=0);
 };

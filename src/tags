@@ -3,7 +3,7 @@
 !_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
-!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+!_TAG_PROGRAM_VERSION	5.8	//
 ATT_BG_BLACK	cca.h	/^const uint16_t ATT_BG_BLACK = 0;$/;"	v
 ATT_BG_BLUE	cca.h	/^const uint16_t ATT_BG_BLUE = 1<<5;$/;"	v
 ATT_BG_BRIGHT	cca.h	/^const uint16_t ATT_BG_BRIGHT = 1<<7;$/;"	v
@@ -23,6 +23,7 @@ ATT_FG_RED	cca.h	/^const uint16_t ATT_FG_RED = 1<<0;$/;"	v
 ATT_FG_WHITE	cca.h	/^const uint16_t ATT_FG_WHITE = ATT_FG_RED | ATT_FG_GREEN | ATT_FG_BLUE;$/;"	v
 ATT_FG_YELLOW	cca.h	/^const uint16_t ATT_FG_YELLOW = ATT_FG_RED | ATT_FG_GREEN;$/;"	v
 ATT_UNDERSCORE	cca.h	/^const uint16_t ATT_UNDERSCORE = 1<<8;$/;"	v
+CHAR_BLOCK	cca.cpp	473;"	d	file:
 CnsMgr	cca.cpp	/^CnsMgr::CnsMgr()$/;"	f	class:CnsMgr
 CnsMgr	cca.cpp	/^CnsMgr::CnsMgr(const CnsMgr&)$/;"	f	class:CnsMgr
 CnsMgr	cca.h	/^class CnsMgr$/;"	c
@@ -36,11 +37,15 @@ EVM_KEY_NUMLOCK	cca.h	/^const uint16_t EVM_KEY_NUMLOCK = 1<<5;$/;"	v
 EVM_KEY_SCRLOCK	cca.h	/^const uint16_t EVM_KEY_SCRLOCK = 1<<4;$/;"	v
 EVM_KEY_SHIFT	cca.h	/^const uint16_t EVM_KEY_SHIFT = 1<<0;$/;"	v
 EVM_KEY_UP	cca.h	/^const uint16_t EVM_KEY_UP = 1<<7;$/;"	v
-EVM_MOUSE_DOWN	cca.h	/^const uint16_t EVM_MOUSE_DOWN = 1<<2;$/;"	v
+EVM_MOUSE_ALT	cca.h	/^const uint16_t EVM_MOUSE_ALT = 1<<6;$/;"	v
+EVM_MOUSE_CONTROL	cca.h	/^const uint16_t EVM_MOUSE_CONTROL = 1<<5;$/;"	v
+EVM_MOUSE_DOUBLE	cca.h	/^const uint16_t EVM_MOUSE_DOUBLE = 1<<4;$/;"	v
 EVM_MOUSE_LEFT	cca.h	/^const uint16_t EVM_MOUSE_LEFT = 1<<0;$/;"	v
+EVM_MOUSE_MOVED	cca.h	/^const uint16_t EVM_MOUSE_MOVED = 1<<8;$/;"	v
 EVM_MOUSE_RIGHT	cca.h	/^const uint16_t EVM_MOUSE_RIGHT = 1<<1;$/;"	v
-EVM_MOUSE_UP	cca.h	/^const uint16_t EVM_MOUSE_UP = 1<<3;$/;"	v
+EVM_MOUSE_SHIFT	cca.h	/^const uint16_t EVM_MOUSE_SHIFT = 1<<7;$/;"	v
 EVT_KEY	cca.h	/^const uint8_t EVT_KEY = 1;$/;"	v
+EVT_MOUSE	cca.h	/^const uint16_t EVT_MOUSE = 2;$/;"	v
 EVT_NONE	cca.h	/^const uint8_t EVT_NONE = 0;$/;"	v
 EVV_KEY_0	cca.h	/^const uint16_t EVV_KEY_0 = '0';$/;"	v
 EVV_KEY_1	cca.h	/^const uint16_t EVV_KEY_1 = '1';$/;"	v
@@ -55,6 +60,7 @@ EVV_KEY_9	cca.h	/^const uint16_t EVV_KEY_9 = '9';$/;"	v
 EVV_KEY_A	cca.h	/^const uint16_t EVV_KEY_A = 'a';$/;"	v
 EVV_KEY_ALT	cca.h	/^const uint16_t EVV_KEY_ALT = 1002;$/;"	v
 EVV_KEY_B	cca.h	/^const uint16_t EVV_KEY_B = 'b';$/;"	v
+EVV_KEY_BACKSPACE	cca.h	/^const uint16_t EVV_KEY_BACKSPACE = 1032;$/;"	v
 EVV_KEY_BS_VLINE	cca.h	/^const uint16_t EVV_KEY_BS_VLINE = '\\\\'; \/\/ the \\\/| key$/;"	v
 EVV_KEY_C	cca.h	/^const uint16_t EVV_KEY_C = 'c';$/;"	v
 EVV_KEY_CAPSLOCK	cca.h	/^const uint16_t EVV_KEY_CAPSLOCK = 1003;$/;"	v
@@ -125,7 +131,7 @@ EVV_KEY_SPACE	cca.h	/^const uint16_t EVV_KEY_SPACE = ' ';$/;"	v
 EVV_KEY_SQ_DQ	cca.h	/^const uint16_t EVV_KEY_SQ_DQ = '\\''; \/\/ the '\/" key$/;"	v
 EVV_KEY_T	cca.h	/^const uint16_t EVV_KEY_T = 't';$/;"	v
 EVV_KEY_TAB	cca.h	/^const uint16_t EVV_KEY_TAB = '\\t';$/;"	v
-EVV_KEY_TQ_TILDE	cca.h	/^const uint16_t EVV_KEY_TQ_TILDE = '~'; \/\/ `\/~ key$/;"	v
+EVV_KEY_TQ_TILDE	cca.h	/^const uint16_t EVV_KEY_TQ_TILDE = '`'; \/\/ `\/~ key$/;"	v
 EVV_KEY_U	cca.h	/^const uint16_t EVV_KEY_U = 'u';$/;"	v
 EVV_KEY_UP	cca.h	/^const uint16_t EVV_KEY_UP = 1011;$/;"	v
 EVV_KEY_V	cca.h	/^const uint16_t EVV_KEY_V = 'v';$/;"	v
@@ -133,22 +139,28 @@ EVV_KEY_W	cca.h	/^const uint16_t EVV_KEY_W = 'w';$/;"	v
 EVV_KEY_X	cca.h	/^const uint16_t EVV_KEY_X = 'x';$/;"	v
 EVV_KEY_Y	cca.h	/^const uint16_t EVV_KEY_Y = 'y';$/;"	v
 EVV_KEY_Z	cca.h	/^const uint16_t EVV_KEY_Z = 'z';$/;"	v
-EVV_MOUSE_X	cca.h	158;"	d
-EVV_MOUSE_XMASK	cca.h	/^const uint16_t EVV_MOUSE_XMASK = 0x00ff;$/;"	v
-EVV_MOUSE_Y	cca.h	159;"	d
-EVV_MOUSE_YMASK	cca.h	/^const uint16_t EVV_MOUSE_YMASK = 0xff00;$/;"	v
+EVV_MOUSE_X	cca.h	163;"	d
+EVV_MOUSE_XMASK	cca.h	/^const uint16_t EVV_MOUSE_XMASK = 1<<0 | 1<<1 | 1<<2 | 1<<3 | 1<<4 | 1<<5 | 1<<6 | 1<<7;$/;"	v
+EVV_MOUSE_Y	cca.h	164;"	d
+EVV_MOUSE_YMASK	cca.h	/^const uint16_t EVV_MOUSE_YMASK = 1<<8 | 1<<9 | 1<<10 | 1<<11 | 1<<12 | 1<<13 | 1<<13 | 1<<14 | 1<<15;$/;"	v
 Event	cca.h	/^		class Event$/;"	c	class:CnsMgr
+Fill	cca.cpp	/^bool CnsMgr::Fill(char c, uint16_t att)$/;"	f	class:CnsMgr
 Flip	cca.cpp	/^bool CnsMgr::Flip()$/;"	f	class:CnsMgr
+GetLine	cca.cpp	/^bool CnsMgr::GetLine(std::string& str, uint8_t sx, uint8_t sy, uint16_t att, const Event& end, int8_t max, char show)$/;"	f	class:CnsMgr
 GetNextEvent	cca.cpp	/^bool CnsMgr::GetNextEvent(Event& ev)$/;"	f	class:CnsMgr
 Init	cca.cpp	/^void CnsMgr::Init()$/;"	f	class:CnsMgr
+KEY_EVENT_ENTER	cca.cpp	/^const CnsMgr::Event CnsMgr::KEY_EVENT_ENTER = {EVV_KEY_ENTER, 0, EVT_KEY};$/;"	m	class:CnsMgr	file:
+KEY_EVENT_ENTER	cca.h	/^		const static Event KEY_EVENT_ENTER;$/;"	m	class:CnsMgr
+KeyEventToChar	cca.cpp	/^char CnsMgr::KeyEventToChar(const CnsMgr::Event& kev, char bad)$/;"	f	class:CnsMgr
 Kill	cca.cpp	/^void CnsMgr::Kill()$/;"	f	class:CnsMgr
 Put	cca.cpp	/^bool CnsMgr::Put(char c, uint8_t x, uint8_t y, uint16_t att)$/;"	f	class:CnsMgr
-RET_IF	cca.h	12;"	d
-RET_IF_V	cca.h	13;"	d
+PutStr	cca.cpp	/^bool CnsMgr::PutStr(const std::string& str, uint8_t x, uint8_t y, uint16_t att)$/;"	f	class:CnsMgr
+RET_IF	cca.h	13;"	d
+RET_IF_V	cca.h	14;"	d
 TranslateAttributes	cca.cpp	/^WORD CnsMgr::TranslateAttributes(uint16_t att)$/;"	f	class:CnsMgr
 TranslateWindowsVK	cca.cpp	/^uint16_t CnsMgr::TranslateWindowsVK(WORD vk)$/;"	f	class:CnsMgr
-WND_H	cca.h	/^const uint8_t WND_H = 50;$/;"	v
-WND_W	cca.h	/^const uint8_t WND_W = 50; \/\/ window\/buffer is 50 chars wide$/;"	v
+WND_H	cca.h	/^const uint16_t WND_H = 30;$/;"	v
+WND_W	cca.h	/^const uint16_t WND_W = 50; \/\/ window\/buffer is 50 chars wide$/;"	v
 buf	cca.h	/^		CHAR_INFO *buf;$/;"	m	class:CnsMgr
 cyerr	cca.h	/^	cyerr(const std::string m, int v)$/;"	f	struct:cyerr
 cyerr	cca.h	/^struct cyerr$/;"	s
@@ -162,6 +174,7 @@ meta	cca.h	/^				uint16_t meta;$/;"	m	class:CnsMgr::Event
 msg	cca.h	/^	std::string msg;$/;"	m	struct:cyerr
 ori_stdin_mode	cca.h	/^		HANDLE h_stdin; DWORD ori_stdin_mode;$/;"	m	class:CnsMgr
 ori_title	cca.h	/^		char *ori_title;$/;"	m	class:CnsMgr
+say	cca.h	/^	std::string say()$/;"	f	struct:cyerr
 title_changed	cca.h	/^		bool title_changed;$/;"	m	class:CnsMgr
 type	cca.h	/^				uint8_t type;$/;"	m	class:CnsMgr::Event
 val	cca.h	/^				uint16_t val;$/;"	m	class:CnsMgr::Event

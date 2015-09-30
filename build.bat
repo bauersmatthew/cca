@@ -17,7 +17,7 @@ if "%1"=="rel" (
 )
 
 :: run cl.exe
-call cl /EHsc %RD_ARG% %SRC% > clout
+call cl /EHsc %RD_ARG% %SRC% /link "User32.lib" > clout
 
 :: restore path
 set PATH=%OLDPATH%

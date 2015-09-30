@@ -1,12 +1,14 @@
 /*
  * File: cca.cpp
- * Edited: 27 Sep 2015
+ * Edited: 29 Sep 2015
  * Author: Matthew Bauer
  */
 
 // includes
 #include "cca.h"
 #include <iostream>
+#include <thread>
+#include <fstream>
 
 // main
 int main(int argc, char **argv)
@@ -24,13 +26,17 @@ int main(int argc, char **argv)
 	}
 	
 	// test
-	cm->PutStr("enter str:", 0, 0, ATT_FG_RED | ATT_FG_BRIGHT | ATT_BG_BLACK);
+	std::ifstream fin("map");
+	std::string line;
+	std::getline(fin, line);
+	for(int ln = 0; !fin.eof(); ln++)
+	{
+		cm->PutStr(line, 0, ln, ATT_FG_RED | ATT_FG_BRIGHT | ATT_UNDERSCORE);
+		std::getline(fin, line);
+	}
+	fin.close();
 	cm->Flip();
-	std::string str;
-	cm->GetLine(str, 0, 1, ATT_FG_BLUE | ATT_FG_BRIGHT | ATT_BG_BLACK);
-	cm->PutStr("you entered:", 0, 2, ATT_FG_GREEN | ATT_FG_BRIGHT | ATT_BG_BLACK);
-	cm->PutStr(str, 0, 3, ATT_FG_GREEN | ATT_BG_BLACK);
-	Sleep(2000);
+	cm->GetLine(NULL, 0, 0, 0, CnsMgr::Event(EVV_KEY_Q, EVM_KEY_DOWN, EVT_KEY), 0);
 	
 	// clean up
 	cm->Kill();
@@ -94,6 +100,10 @@ void CnsMgr::Init()
 		{
 			throw cyerr("failed to get screen buffer info", 8007);
 		}
+		if(new_csbi.dwMaximumWindowSize.X < WND_W || new_csbi.dwMaximumWindowSize.Y < WND_H)
+		{
+			throw cyerr("maximum window size too small", 8008);
+		}
 		new_csbi.dwSize = {WND_W, WND_H};
 		new_csbi.dwCursorPosition = {0, 0};
 		new_csbi.srWindow = {0, 0, WND_W-1, WND_H-1};
@@ -102,6 +112,7 @@ void CnsMgr::Init()
 		{
 			throw cyerr("failed to set window/buffer size", 8006);
 		}
+		SetConsoleScreenBufferInfoEx(h_mysb, &new_csbi);
 	}
 	if(!SetConsoleMode(h_mysb, NULL)) // no output processing
 	{
@@ -210,7 +221,7 @@ bool CnsMgr::PutStr(const std::string& str, uint8_t x, uint8_t y, uint16_t att)
 	if(!initialized)
 		return false;
 	uint8_t len = str.length();
-	if(x + len >= WND_W)
+	if(x + len > WND_W)
 		return false;
 	for(uint8_t i = 0; i < len; i++)
 	{
@@ -252,6 +263,7 @@ uint16_t CnsMgr::TranslateWindowsVK(WORD vk)
 	}
 	switch(vk)
 	{
+		case VK_BACK: return EVV_KEY_BACKSPACE;
 		case VK_TAB: return EVV_KEY_TAB;
 		case VK_RETURN: return EVV_KEY_ENTER;
 		case VK_SHIFT: return EVV_KEY_SHIFT;
@@ -314,6 +326,11 @@ bool CnsMgr::GetNextEvent(Event& ev)
 {
 	if(!initialized)
 		return false;
+	
+	ev.val = 0;
+	ev.meta = 0;
+	ev.type = 0;
+
 	INPUT_RECORD irec;
 	DWORD num_read;
 	if(!ev_q.empty())
@@ -322,7 +339,8 @@ bool CnsMgr::GetNextEvent(Event& ev)
 		ev_q.erase(ev_q.begin());
 		return true;
 	}
-	if(!ReadConsoleInput(h_stdin, &irec, 1, &num_read))
+	
+	if(!GetNumberOfConsoleInputEvents(h_stdin, &num_read))
 	{
 		return false;
 	}
@@ -331,11 +349,17 @@ bool CnsMgr::GetNextEvent(Event& ev)
 		ev.type = EVT_NONE;
 		return true;
 	}
+
+	if(!ReadConsoleInput(h_stdin, &irec, 1, &num_read))
+	{
+		return false;
+	}
 	if(irec.EventType == KEY_EVENT)
 	{
 		ev.type = EVT_KEY;
 		ev.val = TranslateWindowsVK(irec.Event.KeyEvent.wVirtualKeyCode);
 		ev.meta = EVM_KEY_NONE;
+		
 		DWORD cks = irec.Event.KeyEvent.dwControlKeyState;
 		if(cks & CAPSLOCK_ON)
 			ev.meta |= EVM_KEY_CAPSLOCK;
@@ -405,11 +429,11 @@ bool CnsMgr::GetNextEvent(Event& ev)
 
 char CnsMgr::KeyEventToChar(const CnsMgr::Event& kev, char bad)
 {
-	char base;
+	char base = bad;
 	if(kev.val >= EVV_KEY_A && kev.val <= EVV_KEY_Z)
-		base = kev.val;
+		base = (char)kev.val;
 	else if(kev.val >= EVV_KEY_0 && kev.val <= EVV_KEY_9)
-		base = kev.val;
+		base = (char)kev.val;
 	else if(kev.val >= EVV_KEY_NUMPAD0 && kev.val <= EVV_KEY_NUMPAD9)
 		base = (char)(kev.val-2000);
 	else if(
@@ -425,16 +449,17 @@ char CnsMgr::KeyEventToChar(const CnsMgr::Event& kev, char bad)
 		kev.val == EVV_KEY_LSB_LCB || 
 		kev.val == EVV_KEY_RSB_RCB ||
 		kev.val == EVV_KEY_BS_VLINE || 
-		kev.val == EVV_KEY_SQ_DQ
+		kev.val == EVV_KEY_SQ_DQ ||
+		kev.val == EVV_KEY_SPACE
 		)
-		base = kev.val;
+		base = (char)kev.val;
 	else
 		return bad;
 	
-	if(kev.meta && EVM_KEY_SHIFT)
+	if(kev.meta & EVM_KEY_SHIFT)
 	{
 		if(base >= 'a' && base <= 'z')
-			base -= ('a'-'A');
+			base -= (char)('a'-'A');
 		else switch(base)
 		{
 			case '0': return ')';
@@ -460,61 +485,71 @@ char CnsMgr::KeyEventToChar(const CnsMgr::Event& kev, char bad)
 			case '\'': return '\"';
 		}
 	}
-	if(kev.meta && EVM_KEY_CAPSLOCK)
+	if(kev.meta & EVM_KEY_CAPSLOCK)
 	{
 		if(base >= 'a' && base <= 'z')
-			base += ('a' - 'A');
-		else if(base >= 'A' && base <= 'Z')
 			base -= ('a' - 'A');
+		else if(base >= 'A' && base <= 'Z')
+			base += ('a' - 'A');
 	}
-	return base; // a-z, A-Z, \t, \n
+	return base; // a-z, A-Z, \t, \n, space
 }
 
-const CnsMgr::Event CnsMgr::KEY_EVENT_ENTER = {EVV_KEY_ENTER, 0, EVT_KEY};
-bool CnsMgr::GetLine(std::string& str, uint8_t sx, uint8_t sy, uint16_t att, const Event& end, int8_t max, char show)
+#define CHAR_BLOCK ((char)219)
+const CnsMgr::Event CnsMgr::KEY_EVENT_ENTER = {EVV_KEY_ENTER, EVM_KEY_DOWN, EVT_KEY};
+bool CnsMgr::GetLine(std::string *str, uint8_t sx, uint8_t sy, uint16_t att, const Event& end, int8_t max, char show)
 {
 	if(!initialized)
 		return false;
 	if(sx > WND_W || sy >= WND_H) // > for sx, so that u can use it to get enter when at end of line
 		return false;
 	
-	std::string print = std::string(WND_W - sx, ' ');
-	std::string read = "";
 	if(max == -1)
 		max = WND_H - sx;
 	Event my_end = end;
 	if(my_end.type != EVT_KEY)
 		my_end = KEY_EVENT_ENTER;
+		
+	std::string print = std::string(max, ' ');
+	std::string read = "";	
 	
 	uint8_t xpos = sx;
-	uint16_t curs_att = (att & ATT_FG_WHITE) | ((att & ATT_FG_WHITE) << 3) | (att & ATT_FG_BRIGHT) | ((att & ATT_FG_BRIGHT) << 1); // fg = att.fg, bg = att.fg
-
-	Put(' ', xpos, sy, curs_att);
+	
+	if(xpos < sx + print.size())
+		Put(CHAR_BLOCK, xpos, sy, att);
 	Flip();
 
 	Event ev;
 	while(true)
 	{
+		ZeroMemory(&ev, sizeof(ev));
 		if(!GetNextEvent(ev))
 			return false;
+		
 		if(ev.type != EVT_KEY)
 			continue;
 		if(ev.val == my_end.val && ev.meta == my_end.meta)
 			break;
+		if(!(ev.meta & EVM_KEY_DOWN || ev.meta & EVM_KEY_HOLD))
+			continue;
 		
 		if(ev.val == EVV_KEY_BACKSPACE)
 		{
-			if(!read.empty()) // or, xpos != sx
+			if(!read.empty())
 			{
 				read = read.substr(0, read.size()-1);
 				print[xpos-sx] = ' ';
 				xpos--;
 				PutStr(print, sx, sy, att);
-				Put(' ', xpos, sx, curs_att);
+				if(xpos < sx + print.size())
+					Put(CHAR_BLOCK, xpos, sy, att);
+				Flip();
+				continue;
 			}
+			continue;
 		}
 		
-		if(xpos == WND_W)
+		if(xpos >= sx + print.size())
 			continue;
 
 		char ch = KeyEventToChar(ev);
@@ -524,12 +559,15 @@ bool CnsMgr::GetLine(std::string& str, uint8_t sx, uint8_t sy, uint16_t att, con
 		if(show == 0)
 			print[xpos-sx] = ch;
 		else
-			print += show;
+			print[xpos-sx] = show;
 		xpos++;
 		PutStr(print, sx, sy, att);
-		Put(' ', xpos, sx, curs_att);
+		if(xpos < sx + print.size())
+			Put(CHAR_BLOCK, xpos, sy, att);
+		Flip();
 	}
 	
-	str = read;
+	if(str != NULL)
+		*str = read;
 	return true;
 }
