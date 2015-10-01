@@ -7,6 +7,20 @@
 #include "el.h"
 #include "cca.h"
 
+// FD
+El *LoadElementFromType(uint16_t t)
+{
+	switch(t)
+	{
+		case ELT_WALL_V1:
+			return new ElWall_V1;
+		case ELT_WALL_H1:
+			return new ElWall_H1;
+		case ELT_WALL_F1:
+			return new El
+	}
+}
+
 // CD: El
 El::El()
 {

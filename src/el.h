@@ -5,16 +5,17 @@
  */
 #pragma once
 
-#include "consts.h"
-
-// fwd-decl
-class PC;
-
 // element types
 const uint16_t ELT_INVALID = 0;
 const uint16_t ELT_WALL_V1 = 1;
 const uint16_t ELT_WALL_H1 = 2;
 const uint16_t ELT_WALL_F1 = 3;
+
+// eh
+class El;
+
+// load element from id
+El *LoadElementFromType(uint16_t t);
 
 // game element
 class El

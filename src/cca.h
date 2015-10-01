@@ -9,7 +9,6 @@
 #include <string>
 #include <vector>
 #include <stdint.h>
-#include "consts.h"
 
 #define RET_IF(x, r) if(x) return r;
 #define RET_IF_V(x) if(x) return;
