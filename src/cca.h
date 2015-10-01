@@ -1,6 +1,6 @@
 /*
  * File: cca.h
- * Edited: 29 Sep 2015
+ * Edited: 30 Sep 2015
  * Author: Matthew Bauer
  */
 #pragma once
@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include <stdint.h>
+#include "consts.h"
 
 #define RET_IF(x, r) if(x) return r;
 #define RET_IF_V(x) if(x) return;
@@ -28,10 +29,34 @@ struct cyerr
 	}
 };
 
-// console manger
+// resources
+const std::string RESOURCE_DIR = "res/";
+inline std::string Pathify(const std::string& res)
+{
+	return res + RESOURCE_DIR;
+}
+
+// game map class
+class El;
+class Map
+{
+	std::vector<std::vector<El*>> mtx;
+	uint16_t w;
+	uint16_t h;
+	uint16_t x;
+	uint16_t y;
+	bool good;
+
+	public:
+		Map(){}
+		bool Load(const std::string& res);
+}
+
+// window stats
 const uint16_t WND_W = 50; // window/buffer is 50 chars wide
 const uint16_t WND_H = 25;
 
+// attributes
 const uint16_t ATT_FG_BLACK = 0;
 const uint16_t ATT_FG_RED = 1<<0;
 const uint16_t ATT_FG_GREEN = 1<<1;
@@ -52,6 +77,7 @@ const uint16_t ATT_FG_BRIGHT = 1<<6;
 const uint16_t ATT_BG_BRIGHT = 1<<7;
 const uint16_t ATT_UNDERSCORE = 1<<8;
 
+// event stuff
 const uint8_t EVT_NONE = 0;
 const uint8_t EVT_KEY = 1;
 const uint16_t EVV_KEY_A = 'a';
@@ -170,6 +196,7 @@ const uint16_t EVM_MOUSE_ALT = 1<<6;
 const uint16_t EVM_MOUSE_SHIFT = 1<<7;
 const uint16_t EVM_MOUSE_MOVED = 1<<8;
 
+// console manger
 class CnsMgr
 {
 	public:

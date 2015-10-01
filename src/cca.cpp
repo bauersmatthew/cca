@@ -1,6 +1,6 @@
 /*
  * File: cca.cpp
- * Edited: 29 Sep 2015
+ * Edited: 30 Sep 2015
  * Author: Matthew Bauer
  */
 
@@ -14,7 +14,6 @@
 // TODO: MAYBE MAKE RESOURCE MANAGER CLASS? DON'T KNOW IF REALLY NEEDED.
 
 const std::string RESOURCE_DIR = "res/";
-std::string Pathify(const std::string& res);
 
 uint8_t StartupDialogue(CnsMgr *cm);
 
@@ -46,6 +45,14 @@ int main(int argc, char **argv)
 uint8_t StartupDialogue(CnsMgr *cm)
 {
 	return 0;
+}
+
+// CD: Map
+bool Map::Load(const std::string& res)
+{
+	std::ifstream fin(Pathify(res), std::ios::in | std::ios::binary);
+	if(!fin)
+		return false;
 }
 
 // CD: CnsMgr
